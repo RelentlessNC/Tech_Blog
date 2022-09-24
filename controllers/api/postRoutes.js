@@ -1,6 +1,23 @@
 const router = require('express').Router();
-const { Project } = require('../../models');
+const { Post, User } = require('../../models');
 const withAuth = require('../../utils/auth');
+
+router.get('/:id', async(req, res) => {
+    try {
+        const postData = await Post.findByPk(req.params.id, {
+            include: [{
+                model: User,
+                attributes: [
+                    'name'
+                ]
+            }]
+        });
+        const post = postData.get({ plain: true });
+        res.render('singlePostHB', { post });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 router.post('/', withAuth, async(req, res) => {
     try {

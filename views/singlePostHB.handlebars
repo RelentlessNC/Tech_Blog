@@ -1,0 +1,12 @@
+<!-- Loop over each object in the projects array -->
+
+<div class="container-fluid">
+    <h2>
+      <!-- Call helper function with triple brackets to render the emoji span as HTML -->
+      {{post.title}}
+    </h2>
+    <p>{{post.contents}}</p>
+    <p>Created by {{user.name}} on {{format_date post.date_created}}</p>
+  </div>
+
+<script src="./js/post.js"></script>

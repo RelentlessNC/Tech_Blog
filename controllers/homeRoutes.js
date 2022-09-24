@@ -18,7 +18,7 @@ router.get('/', async(req, res) => {
         const posts = postData.map((post) => post.get({ plain: true }));
 
         // Pass serialized data and session flag into template
-        res.render('postsHB', {
+        res.render('allPostsHB', {
             posts,
             logged_in: req.session.logged_in
         });
@@ -27,17 +27,18 @@ router.get('/', async(req, res) => {
     }
 });
 
-router.get('/posts/:id', async(req, res) => {
+router.get('/myPosts', withAuth, async(req, res) => {
     try {
-        const postData = await Post.findByPk(req.params.id);
-        //console.log(postData);
-        const post = postData.get({ plain: true });
-        console.log(post);
-        res.render('postsHB', { post });
+        const postData = await Post.findAll(req.session.user_id);
+        const post = postData.get({ plain: true })
+        res.render('myPostsHB', { post });
+
     } catch (err) {
         res.status(500).json(err);
     }
-});
+})
+
+
 
 // Use withAuth middleware to prevent access to route
 router.get('/profile', withAuth, async(req, res) => {
