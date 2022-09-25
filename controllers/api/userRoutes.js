@@ -40,6 +40,12 @@ router.post('/login', async(req, res) => {
             req.session.user_id = userData.id;
             req.session.logged_in = true;
 
+            // So in userroutes.js, Line:11 and line:42 add req.session.username = userdata.name
+
+            // Then in postroutes.js - Line:16 - res.render('singlePostHB',{post,username:req.sessions.username});
+
+            // Then in SinglePostHAndlebars  you can: {{username}}
+
             res.json({ user: userData, message: 'You are now logged in!' });
         });
 

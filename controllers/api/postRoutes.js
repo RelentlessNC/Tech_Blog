@@ -6,27 +6,25 @@ router.get('/:id', async(req, res) => {
     try {
         const postData = await Post.findByPk(req.params.id, {
             include: [{
-                model: User,
-                attributes: [
-                    'name'
-                ]
+                model: User
             }]
         });
         const post = postData.get({ plain: true });
+        console.log(post);
         res.render('singlePostHB', { post });
     } catch (err) {
         res.status(500).json(err);
     }
 });
 
-router.post('/', withAuth, async(req, res) => {
+router.post('/newPost', withAuth, async(req, res) => {
     try {
         const newPost = await Post.create({
             ...req.body,
             user_id: req.session.user_id,
         });
+        res.render('createPostHB', { newPost });
 
-        res.status(200).json(newProject);
     } catch (err) {
         res.status(400).json(err);
     }

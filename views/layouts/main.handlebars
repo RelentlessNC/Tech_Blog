@@ -11,14 +11,12 @@
 </head>
 
 <body>
-  <div class="">
-    <header class="">
-      <h1>
-        <a href="/">Home</a>
-        <a href="/myPosts">Dashboard</a> 
-      </h1>
+  <div class="container">
       <nav>
         <!-- Conditionally render login or logout links -->
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a> 
+        <a href="/api/posts/newPost">New Post</a>
         {{#if logged_in}}|
         <button class="no-button" id="logout">logout</button>
         {{else}}

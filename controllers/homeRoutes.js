@@ -27,11 +27,12 @@ router.get('/', async(req, res) => {
     }
 });
 
-router.get('/myPosts', withAuth, async(req, res) => {
+router.get('/dashboard', withAuth, async(req, res) => {
     try {
         const postData = await Post.findAll(req.session.user_id);
-        const post = postData.get({ plain: true })
-        res.render('myPostsHB', { post });
+
+        const posts = postData.map((post) => post.get({ plain: true }));
+        res.render('dashboardHB', { posts });
 
     } catch (err) {
         res.status(500).json(err);
