@@ -4,7 +4,7 @@ const withAuth = require('../utils/auth');
 
 router.get('/', async(req, res) => {
     try {
-        // Get all projects and JOIN with user data
+        // Get all posts and JOIN with user data
         const postData = await Post.findAll({
             include: [{
                 model: User,
@@ -29,15 +29,48 @@ router.get('/', async(req, res) => {
 
 router.get('/dashboard', withAuth, async(req, res) => {
     try {
-        const postData = await Post.findAll(req.session.user_id);
+
+        const postData = await Post.findAll({
+            where: {
+                "user_id": req.session.user_id
+            },
+            include: [User]
+
+        });
 
         const posts = postData.map((post) => post.get({ plain: true }));
-        res.render('dashboardHB', { posts });
+        res.render('dashboardHB', { posts, logged_in: req.session.logged_in });
 
     } catch (err) {
         res.status(500).json(err);
     }
-})
+});
+
+// router.get('/newPost', withAuth, async(req, res) => {
+//     try {
+//         res.render('createPostHB', {
+//             logged_in: req.session.logged_in
+//         });
+//         res.status(400);
+//     } catch (err) {
+//         res.status(500).json(err);
+//     }
+// });
+
+router.post('/newPost', withAuth, async(req, res) => {
+    try {
+        console.log(req);
+        const newPost = await Post.create({
+            title: req.body.postTitle,
+            contents: req.body.postContents,
+        });
+        console.log(newPost);
+        res.render('singlePostHB', { newPost });
+
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
 
 
 
@@ -64,7 +97,7 @@ router.get('/profile', withAuth, async(req, res) => {
 router.get('/login', (req, res) => {
     // If the user is already logged in, redirect the request to another route
     if (req.session.logged_in) {
-        res.redirect('/profile');
+        res.redirect('/dashboard');
         return;
     }
 

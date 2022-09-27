@@ -16,9 +16,9 @@
         <!-- Conditionally render login or logout links -->
         <a href="/">Home</a>
         <a href="/dashboard">Dashboard</a> 
-        <a href="/api/posts/newPost">New Post</a>
+        <a href="/newPost">New Post</a>
         {{#if logged_in}}|
-        <button class="no-button" id="logout">logout</button>
+        <button id="logout">logout</button>
         {{else}}
         <a href="/login">login</a>
         {{/if}}
@@ -39,4 +39,7 @@
   {{/if}}
 </body>
 
+<scrip src="../../public/js/logout.js"></script>
+<scrip src="../../public/js/profile.js"></script>
+<scrip src="../../public/js/createPost.js"></script>
 </html>
