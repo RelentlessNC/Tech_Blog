@@ -60,10 +60,11 @@ router.get('/newPost', withAuth, async(req, res) => {
 router.post('/newPost', withAuth, async(req, res) => {
     console.log(req.body);
     try {
-        //console.log(req);
+        console.log(req.session.logged_in);
         const newPost = await Post.create({
             title: req.body.title,
             contents: req.body.contents,
+            user_id: req.session.user_id,
         });
         console.log('newPost in .post route: ', newPost);
         res.render('dashboardHB', { newPost });
