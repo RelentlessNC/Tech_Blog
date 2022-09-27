@@ -46,26 +46,27 @@ router.get('/dashboard', withAuth, async(req, res) => {
     }
 });
 
-// router.get('/newPost', withAuth, async(req, res) => {
-//     try {
-//         res.render('createPostHB', {
-//             logged_in: req.session.logged_in
-//         });
-//         res.status(400);
-//     } catch (err) {
-//         res.status(500).json(err);
-//     }
-// });
+router.get('/newPost', withAuth, async(req, res) => {
+    try {
+        res.render('createPostHB', {
+            logged_in: req.session.logged_in
+        });
+        res.status(400);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 router.post('/newPost', withAuth, async(req, res) => {
+    console.log(req.body);
     try {
-        console.log(req);
+        //console.log(req);
         const newPost = await Post.create({
-            title: req.body.postTitle,
-            contents: req.body.postContents,
+            title: req.body.title,
+            contents: req.body.contents,
         });
-        console.log(newPost);
-        res.render('singlePostHB', { newPost });
+        console.log('newPost in .post route: ', newPost);
+        res.render('dashboardHB', { newPost });
 
     } catch (err) {
         res.status(400).json(err);
