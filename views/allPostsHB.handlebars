@@ -8,6 +8,11 @@
     </h2>
     <p>{{post.contents}}</p>
     <p>Created by {{post.user.name}} on {{ post.date_created}}</p>
+    {{#if logged_in}}
+    <form>
+      <button type="submit">Comment</button>
+    </form>
+    {{/if}}
   </div>
 {{/each}}
 
